@@ -162,7 +162,7 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 # for testing afterCharge
 
 # service = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charges', '02:15', '175', '0']
-# result = ['Carlos Castro', '05-BB-99', _no_client_, '11:00', '11:30',  _no_circuit_, '0', 'standby', '02:15', '175', '0']
+# result = ['Carlos Castro', '05-BB-99', _no_client_, '12:30', '12:30',  _no_circuit_, '0', 'standby', '02:15', '175', '0']
 #
 # print afterCharge(service)
 # print result
