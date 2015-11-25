@@ -105,6 +105,7 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
         new_service = updateOneService(reservation, old_service)
         new_services.append(new_service[:INDEXDriverStatus + 1])
 
+        # makes driver and vehicle available again, after charging
         if new_service[INDEXDriverStatus] == STATUSCharging:
             charged = afterCharge(new_service)
             new_services.append(charged[:INDEXDriverStatus + 1])
@@ -113,6 +114,7 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
         elif new_service[INDEXDriverStatus] == STATUSStandBy:
             waiting4Services.append(new_service)
 
+        # sorts waiting4Services so that drivers available earlier are assigned services first
         waiting4Services = sortWaiting4Services(waiting4Services)
 
     return sortServices(new_services)
@@ -124,7 +126,7 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 
 # service = ['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '01:45', '175', '145']
 # reservation = ['Chris Cauly', '11:00', '11:30', 'baixa', '25']
-# result = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charging', '02:15', '175', '0']
+# result = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charges', '02:15', '175', '0']
 
 # print updateOneService(reservation, service)
 # print result
@@ -147,9 +149,21 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 # print '\n'
 
 
+# for testing updateServices
 
+# reservations = [['Chris Cauly', '11:00', '11:30', 'baixa', '25'], ['Frank Gerry', '11:15', '11:45', 'belem', '40'], ['Michal Labelle', '11:35', '11:40', 'minibaixa', '15'], ['Zacarias Zack', '11:35', '11:45', 'minibaixa', '15'], ['Alfonso Dominguez', '11:40', '12:00', 'castelo', '45'], ['Chris Melga', '11:40', '12:40', 'castelo', '45'], ['Milan Kundera', '11:45', '12:35', 'sintra', '80'], ['John Smith', '12:00', '12:05', 'minibaixa', '20']]
+# waiting4Services = [['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '01:45', '175', '145'], ['Jonas Sousa', '17-GD-87', 'Yoshiro Kimoto', '09:50', '10:30', 'castelo', '45', 'standby', '01:00', '130', '50'], ['Alberto Campos', '19-HI-34', 'Paul Sondag', '09:30', '10:30', 'castelo', '45', 'standby', '01:50', '175', '150'], ['Duarte Silva', '17-GD-86', 'Jack London', '10:00', '10:45', 'bairroalto', '25', 'standby', '02:27', '175', '5']]
+# result = [['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charges'], ['Alberto Campos', '19-HI-34', 'Michal Labelle', '11:35', '11:40', 'minibaixa', '15', 'charges'], ['Duarte Silva', '17-GD-86', 'Zacarias Zack', '11:35', '11:45', 'minibaixa', '15', 'standby'], ['Jonas Sousa', '17-GD-87', 'Frank Gerry', '11:15', '11:45', 'belem', '40', 'standby'], ['Duarte Silva', '17-GD-86', 'Alfonso Dominguez', '11:45', '12:05', 'castelo', '45', 'standby'], ['Jonas Sousa', '17-GD-87', 'John Smith', '12:00', '12:05', 'minibaixa', '20', 'standby'], ['Carlos Castro', '05-BB-99', '_no_client_', '12:30', '12:30', '_no_circuit_', '0', 'standby'], ['Alberto Campos', '19-HI-34', '_no_client_', '12:40', '12:40', '_no_circuit_', '0', 'standby'], ['Duarte Silva', '17-GD-86', 'Chris Melga', '12:05', '13:05', 'castelo', '45', 'standby'], ['Carlos Castro', '05-BB-99', 'Milan Kundera', '12:30', '13:20', 'sintra', '80', 'standby']]
+#
+# print updateServices(reservations, waiting4Services)
+# print result
+# print '\n'
 
+# for testing afterCharge
 
-
-
+# service = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charges', '02:15', '175', '0']
+# result = ['Carlos Castro', '05-BB-99', _no_client_, '11:00', '11:30',  _no_circuit_, '0', 'standby', '02:15', '175', '0']
+#
+# print afterCharge(service)
+# print result
 
