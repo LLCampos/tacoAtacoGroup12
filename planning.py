@@ -22,36 +22,41 @@ def updateOneService(reservation, service):
     where the driver and her vehicle are assigned to a reservation
     (unless the first condition of the ifelse block is true. In that case the
     structure of the list is the same as the sublists of the output of
-    consultStatus.readServicesFile)
+    consultStatus.readServicesFile). See specifications of UpdateServices for more
+    information
     """
+    # Adds information to the new service
     new_service = []
-    new_service[INDEXDriverName] = service[INDEXDriverName]
-    new_service[INDEXVehiclePlate] = service[INDEXVehiclePlate]
-    new_service[INDEXClientName] = reservation[INDEXClientNameInReservation]
-    new_service[INDEXDepartureHour] = reservation[INDEXRequestedStartHour]
-    new_service[INDEXArrivalHour] = reservation[INDEXRequestedEndHour]
-    new_service[INDEXCircuitId] = reservation[INDEXCircuitInReservation]
-    new_service[INDEXCircuitKms] = reservation[INDEXCircuitKmsInReservation]
+    new_service.append(service[INDEXDriverName])
+    new_service.append(service[INDEXVehiclePlate])
+    new_service.append(reservation[INDEXClientNameInReservation])
+    new_service.append(reservation[INDEXRequestedStartHour])
+    new_service.append(reservation[INDEXRequestedEndHour])
+    new_service.append(reservation[INDEXCircuitInReservation])
+    new_service.append(reservation[INDEXCircuitKmsInReservation])
 
+    # Calculates how much work time is left for the driver after this service
     duration = diff(new_service[INDEXArrivalHour], new_service[INDEXDepartureHour])
     new_accumulated_hours = add(service[INDEXAccumulatedTime], duration)
     allowed_time_left = diff(TIMELimit, new_accumulated_hours)
 
-    new_accumulated_kms = add(service[INDEXAccumulatedKms], new_service[INDEXCircuitKms])
-    allowed_kms_left = diff(service[INDEXINDEXVehicAutonomy], new_accumulated_kms)
+    # Calculates how much kms are left fot the vehivle after this service
+    new_accumulated_kms = int(service[INDEXAccumulatedKms]) + int(new_service[INDEXCircuitKms])
+    allowed_kms_left = int(service[INDEXINDEXVehicAutonomy]) - new_accumulated_kms
 
+    # Adds the rest of the information, depending on the allowed time and kms left
     if allowed_time_left < TIMEThreshold:
-        new_service[INDEXDriverStatus] = STATUSTerminated
+        new_service.append(STATUSTerminated)
     elif allowed_kms_left < AUTONThreshold:
-        new_service[INDEXDriverStatus] = STATUSCharging
-        new_service[INDEXAccumulatedTime] = new_accumulated_hours
-        new_service[INDEXINDEXVehicAutonomy] = service[INDEXINDEXVehicAutonomy]
-        new_service[INDEXAccumulatedKms] = 0
+        new_service.append(STATUSCharging)
+        new_service.append(new_accumulated_hours)
+        new_service.append(service[INDEXINDEXVehicAutonomy])
+        new_service.append('0')
     else:
-        new_service[INDEXDriverStatus] = STATUSStandBy
-        new_service[INDEXAccumulatedTime] = new_accumulated_hours
-        new_service[INDEXINDEXVehicAutonomy] = service[INDEXINDEXVehicAutonomy]
-        new_service[INDEXAccumulatedKms] = new_accumulated_kms
+        new_service.append(STATUSStandBy)
+        new_service.append(new_accumulated_hours)
+        new_service.append(service[INDEXINDEXVehicAutonomy])
+        new_service.append(str(new_accumulated_kms))
 
     return new_service
 
@@ -115,12 +120,31 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
     # fazer funções afterCharge, sortWaiting4Services e sortServices
 
 
+# for testing updateOneService:
 
+# service = ['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '01:45', '175', '145']
+# reservation = ['Chris Cauly', '11:00', '11:30', 'baixa', '25']
+# result = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charging', '02:15', '175', '0']
 
+# print updateOneService(reservation, service)
+# print result
+# print '\n'
 
-
-
-
+# service = ['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '01:45', '600', '145']
+# reservation = ['Chris Cauly', '11:00', '11:30', 'baixa', '25']
+# result = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'standby', '02:15', '600', '170']
+#
+# print updateOneService(reservation, service)
+# print result
+# print '\n'
+#
+# service = ['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '04:46', '600', '145']
+# reservation = ['Chris Cauly', '11:00', '11:30', 'baixa', '25']
+# result = ['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'terminates']
+#
+# print updateOneService(reservation, service)
+# print result
+# print '\n'
 
 
 
