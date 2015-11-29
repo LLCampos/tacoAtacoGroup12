@@ -37,11 +37,8 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
     the period immediately preceding the one indicated by nextPeriod,
     from the set 0709, 0911, ..., 1719;
     Ensures:
-    writing of .txt files D, V and S containing, respectively, the updated
     lists of drivers, vehicles and services for the period nextPeriod
-    according to the requirements in the general specifications provided
-    (omitted here for the sake of readability);
-    writing of .txt file containing the updated lists of services for
+    writing of .txt file containing the updated list of services for
     the period nextPeriod according to the requirements in the general
     specifications provided (omitted here for the sake of readability);
     the name of that file is outputXXYY.txt where XXYY represents
