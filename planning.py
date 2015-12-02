@@ -24,6 +24,19 @@ def durationReservation(reservation):
     return diff(reservation[INDEXRequestedEndHour], reservation[INDEXRequestedStartHour])
 
 
+def kmsLeftVehicle(service):
+    """Calculates how many kilometes a vehicle can still do
+
+    Requires:
+    service is a sublist of a list with the structure as in the output of
+    consultStatus.waiting4ServicesList
+    Ensures:
+    an int corresponding to the number of km the vehicle can still make
+    """
+
+    return int(service[INDEXINDEXVehicAutonomy]) - int(service[INDEXAccumulatedKms])
+
+
 def updateOneService(reservation, service):
     """Assign a driver with her vehicle to a service that was reserved.
 
@@ -125,11 +138,13 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 
     for reservation in reservations_p:
 
-        #i = 0
-        #while int(waiting4Services[i][INDEXINDEXVehicAutonomy]) - int(waiting4Services[i][INDEXAccumulatedKms]) < int(reservation[INDEXCircuitKmsInReservation]):
-            #i += 1
+        # checks if reservation would pass km limit of vehicle or time limit of driver and chooses another driver if that's the case
+        i = 0
+        while kmsLeftVehicle(waiting4Services[i]) < int(reservation[INDEXCircuitKmsInReservation]) \
+                or durationReservation(reservation) > diff(TIMELimit, waiting4Services[i][INDEXAccumulatedTime]):
+            i += 1
 
-        old_service = waiting4Services.pop(1)
+        old_service = waiting4Services.pop(i)
         new_service = updateOneService(reservation, old_service)
         new_services.append(new_service[:INDEXDriverStatus + 1])
 
