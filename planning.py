@@ -11,6 +11,19 @@ from copy import deepcopy
 from operator import itemgetter
 
 
+def durationReservation(reservation):
+    """Calculates duration of a service
+
+    Requires:
+    reservation is a sublist of a list with the structure as in the output of
+    consultStatus.readReservationsFile;
+    Ensures:
+    string in the format 'HH:MM' corresponding to the duration of the service
+    """
+
+    return diff(reservation[INDEXRequestedEndHour], reservation[INDEXRequestedStartHour])
+
+
 def updateOneService(reservation, service):
     """Assign a driver with her vehicle to a service that was reserved.
 
@@ -44,7 +57,7 @@ def updateOneService(reservation, service):
     new_service.append(reservation[INDEXCircuitKmsInReservation])
 
     # Calculates how much work time is left for the driver after this service
-    duration = diff(new_service[INDEXArrivalHour], new_service[INDEXDepartureHour])
+    duration = durationReservation(reservation)
     new_accumulated_hours = add(service[INDEXAccumulatedTime], duration)
     allowed_time_left = diff(TIMELimit, new_accumulated_hours)
 
@@ -111,7 +124,12 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
     new_services = []
 
     for reservation in reservations_p:
-        old_service = waiting4Services.pop(0)
+
+        #i = 0
+        #while int(waiting4Services[i][INDEXINDEXVehicAutonomy]) - int(waiting4Services[i][INDEXAccumulatedKms]) < int(reservation[INDEXCircuitKmsInReservation]):
+            #i += 1
+
+        old_service = waiting4Services.pop(1)
         new_service = updateOneService(reservation, old_service)
         new_services.append(new_service[:INDEXDriverStatus + 1])
 
@@ -130,12 +148,11 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
     return sortServices(new_services)
 
 
-
 def afterCharge(service):
     service[INDEXClientName] = NOCLIENT
     service[INDEXCircuitId] = NOCIRCUIT
     service[INDEXCircuitKms] = '0'
-    service[INDEXArrivalHour] = add(service[INDEXArrivalHour], '1:00')
+    service[INDEXArrivalHour] = add(service[INDEXArrivalHour], '01:00')
     service[INDEXDepartureHour] = service[INDEXArrivalHour]
     service[INDEXDriverStatus] = STATUSStandBy
 
@@ -184,6 +201,7 @@ result = [['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa'
 
 print updateServices(reservations, waiting4Services)
 print result
+print result == updateServices(reservations, waiting4Services)
 print '\n'
 
 # for testing afterCharge
