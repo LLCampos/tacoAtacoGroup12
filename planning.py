@@ -138,28 +138,41 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 
     for reservation in reservations_p:
 
+        print reservation
+        for l in waiting4Services:
+            print l
+        print '\n'
+
         # checks if reservation would pass km limit of vehicle or time limit of driver and chooses another driver if that's the case
         i = 0
-        while int(reservation[INDEXCircuitKmsInReservation]) > kmsLeftVehicle(waiting4Services[i]) \
-                or durationReservation(reservation) > diff(TIMELimit, waiting4Services[i][INDEXAccumulatedTime]):
+        while i < len(waiting4Services) and \
+                (int(reservation[INDEXCircuitKmsInReservation]) >= kmsLeftVehicle(waiting4Services[i])
+                or durationReservation(reservation) >= diff(TIMELimit, waiting4Services[i][INDEXAccumulatedTime])):
             i += 1
-            # pôr aqui uma exception para o caso de não haver drivers ou veículos disponíveis?
 
-        old_service = waiting4Services.pop(i)
-        new_service = updateOneService(reservation, old_service)
-        new_services.append(new_service[:INDEXDriverStatus + 1])
+        # if there is no driver available to a reservation, try get some to work on next reservation
+        if i == len(waiting4Services):
+            next
+        else:
+            old_service = waiting4Services.pop(i)
+            new_service = updateOneService(reservation, old_service)
+            new_services.append(new_service[:INDEXDriverStatus + 1])
 
-        # makes driver and vehicle available again, after charging
-        if new_service[INDEXDriverStatus] == STATUSCharging:
-            charged = afterCharge(new_service)
-            new_services.append(charged[:INDEXDriverStatus + 1])
-            waiting4Services.append(charged)
+            # makes driver and vehicle available again, after charging
+            if new_service[INDEXDriverStatus] == STATUSCharging:
+                charged = afterCharge(new_service)
+                new_services.append(charged[:INDEXDriverStatus + 1])
+                waiting4Services.append(charged)
 
-        elif new_service[INDEXDriverStatus] == STATUSStandBy:
-            waiting4Services.append(new_service)
+            elif new_service[INDEXDriverStatus] == STATUSStandBy:
+                waiting4Services.append(new_service)
 
-        # sorts waiting4Services so that drivers available earlier are assigned services first
-        waiting4Services = sortWaitingServices(waiting4Services)
+            for l in new_services:
+                print l
+            print '\n\n'
+
+            # sorts waiting4Services so that drivers available earlier are assigned services first
+            waiting4Services = sortWaitingServices(waiting4Services)
 
     return sortServices(new_services)
 
@@ -252,14 +265,14 @@ def sortServices(services):
 
 
 #
-# reservations = [['Conchita Gomez', '19:00', '19:30', 'baixa', '25'], ['Hugo Klim', '19:05', '19:35', 'baixa', '25'], ['Franz Beckenbauer', '19:15', '19:45', 'belem', '40'], ['Michelle Williams', '19:35', '19:40', 'minibaixa', '15'], ['Zoe Crimson', '19:35', '19:45', 'minibaixa', '15'], ['Albert Einstein', '19:40', '20:00', 'castelo', '45'], ['Chris Melga', '19:40', '20:40', 'castelo', '45'], ['Mike Shubert', '19:45', '20:35', 'sintra', '80'], ['John Malkovich', '20:00', '20:05', 'minibaixa', '20']]
-# waiting4Services = [['Catarina Castro', '05-BB-99', 'Susanne Smith', '17:45', '18:15', 'baixa', '10', 'standby', '01:45', '175', '145'], ['Nuno Santos', '34-TU-16', 'Maria Flick', '17:20', '18:20', 'mouraria', '30', 'standby', '03:20', '100', '30'], ['Ana Campos', '19-HI-34', 'Pierre Custeau', '17:30', '18:30', 'castelo', '45', 'standby', '01:50', '175', '150'], ['Jorge Sousa', '17-GD-87', 'Chris Simpson', '17:50', '18:30', 'castelo', '45', 'standby', '03:45', '130', '65'], ['Daniel Silva', '17-GD-86', '_no_client_', '18:45', '18:45', '_no_circuit_', '0', 'standby', '02:27', '175', '0']]
-# result = [['Catarina Castro', '05-BB-99', 'Conchita Gomez', '19:00', '19:30', 'baixa', '25', 'charges'], ['Nuno Santos', '34-TU-16', 'Hugo Klim', '19:05', '19:35', 'baixa', '25', 'standby'], ['Ana Campos', '19-HI-34', 'Michelle Williams', '19:35', '19:40', 'minibaixa', '15', 'charges'], ['Daniel Silva', '17-GD-86', 'Zoe Crimson', '19:35', '19:45', 'minibaixa', '15', 'standby'], ['Jorge Sousa', '17-GD-87', 'Franz Beckenbauer', '19:15', '19:45', 'belem', '40', 'standby'], ['Daniel Silva', '17-GD-86', 'Albert Einstein', '19:45', '20:05', 'castelo', '45', 'standby'], ['Nuno Santos', '34-TU-16', 'John Malkovich', '20:00', '20:05', 'minibaixa', '20', 'standby'], ['Catarina Castro', '05-BB-99', '_no_client_', '20:30', '20:30', '_no_circuit_', '0', 'standby'], ['Ana Campos', '19-HI-34', '_no_client_', '20:40', '20:40', '_no_circuit_', '0', 'standby'], ['Daniel Silva', '17-GD-86', 'Chris Melga', '20:05', '21:05', 'castelo', '45', 'standby'], ['Catarina Castro', '05-BB-99', 'Mike Shubert', '20:30', '21:20', 'sintra', '80', 'standby']]
-#
-# print updateServices(reservations, waiting4Services)
-# print result
-# print result == updateServices(reservations, waiting4Services)
-# print '\n'
+reservations = [['Conchita Gomez', '19:00', '19:30', 'baixa', '25'], ['Hugo Klim', '19:05', '19:35', 'baixa', '25'], ['Franz Beckenbauer', '19:15', '19:45', 'belem', '40'], ['Michelle Williams', '19:35', '19:40', 'minibaixa', '15'], ['Zoe Crimson', '19:35', '19:45', 'minibaixa', '15'], ['Albert Einstein', '19:40', '20:00', 'castelo', '45'], ['Chris Melga', '19:40', '20:40', 'castelo', '45'], ['Mike Shubert', '19:45', '20:35', 'sintra', '80'], ['John Malkovich', '20:00', '20:05', 'minibaixa', '20']]
+waiting4Services = [['Catarina Castro', '05-BB-99', 'Susanne Smith', '17:45', '18:15', 'baixa', '10', 'standby', '01:45', '175', '145'], ['Nuno Santos', '34-TU-16', 'Maria Flick', '17:20', '18:20', 'mouraria', '30', 'standby', '03:20', '100', '30'], ['Ana Campos', '19-HI-34', 'Pierre Custeau', '17:30', '18:30', 'castelo', '45', 'standby', '01:50', '175', '150'], ['Jorge Sousa', '17-GD-87', 'Chris Simpson', '17:50', '18:30', 'castelo', '45', 'standby', '03:45', '130', '65'], ['Daniel Silva', '17-GD-86', '_no_client_', '18:45', '18:45', '_no_circuit_', '0', 'standby', '02:27', '175', '0']]
+result = [['Catarina Castro', '05-BB-99', 'Conchita Gomez', '19:00', '19:30', 'baixa', '25', 'charges'], ['Nuno Santos', '34-TU-16', 'Hugo Klim', '19:05', '19:35', 'baixa', '25', 'standby'], ['Ana Campos', '19-HI-34', 'Michelle Williams', '19:35', '19:40', 'minibaixa', '15', 'charges'], ['Daniel Silva', '17-GD-86', 'Zoe Crimson', '19:35', '19:45', 'minibaixa', '15', 'standby'], ['Jorge Sousa', '17-GD-87', 'Franz Beckenbauer', '19:15', '19:45', 'belem', '40', 'standby'], ['Daniel Silva', '17-GD-86', 'Albert Einstein', '19:45', '20:05', 'castelo', '45', 'standby'], ['Nuno Santos', '34-TU-16', 'John Malkovich', '20:00', '20:05', 'minibaixa', '20', 'standby'], ['Catarina Castro', '05-BB-99', '_no_client_', '20:30', '20:30', '_no_circuit_', '0', 'standby'], ['Ana Campos', '19-HI-34', '_no_client_', '20:40', '20:40', '_no_circuit_', '0', 'standby'], ['Daniel Silva', '17-GD-86', 'Chris Melga', '20:05', '21:05', 'castelo', '45', 'standby'], ['Catarina Castro', '05-BB-99', 'Mike Shubert', '20:30', '21:20', 'sintra', '80', 'standby']]
+a = updateServices(reservations, waiting4Services)
+print a
+print result
+print a == result
+print '\n'
 
 # reservations = [['Conchita Suarez', '15:00', '15:45', 'baixa', '25'], ['Franz Muller', '15:15', '16:45', 'belem', '40'], ['Michelle Pfeiffer', '15:35', '17:35', 'sintra', '80'], ['Zoe Ruiz', '15:35', '15:50', 'minibaixa', '15'], ['Albert Schumaker', '15:40', '16:40', 'castelo', '45'], ['Chris Smith', '15:40', '16:40', 'castelo', '45'], ['Mike Melga', '15:45', '17:45', 'sintra', '80'], ['John Stuart', '16:00', '16:05', 'minibaixa', '20']]
 # waiting4Services = [['Daniel Pereira', '17-GD-86', '_no_client_', '14:15', '14:15', '_no_circuit_', '0', 'standby', '04:27', '175', '0'], ['Rita Carvalho', '19-HI-34', 'Cavaco Silva', '12:30', '14:50', 'cascais', '70', 'standby', '02:50', '175', '75'], ['Luis Gomes', '34-TU-16', 'Stelios Callas', '12:50', '14:50', 'cristorei', '40', 'standby', '03:15', '100', '70'], ['Steven Neale', '05-BB-99', 'Helena Rodriguez', '13:35', '15:15', 'castelo', '45', 'standby', '02:10', '175', '70'], ['Catarina Correia', '67-BH-87', 'John Wayne', '14:50', '16:50', 'sintra', '80', 'standby', '02:00', '175', '80'], ['Nuno Sousa', '17-GD-87', 'Charles Simpson', '14:45', '17:15', 'sintra', '80', 'standby', '03:00', '130', '90']]
