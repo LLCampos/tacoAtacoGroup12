@@ -10,6 +10,33 @@ from timeTT import *
 from copy import deepcopy
 from operator import itemgetter
 
+
+def addNoServiceDriver(new_services, waiting4Services):
+    """Adds the drivers that had no service in the current period to the list
+    of new services.
+
+    Requires:
+    new_services is a list of lists with the structure of the output of
+    consultStatus.readServicesFile although not necessarilly ordered;
+    waiting4Services is a list of lists with the structure of
+    consultStatus.waiting4ServicesList
+    Ensures:
+    a list of lists similar to new_services but with list(s), corresponding
+    to drivers which had no service in the current, appended to it
+    """
+    # list of names of drivers with services
+    drivers_with_services = [service[INDEXDriverName] for service in new_services]
+
+    # services of the previous period of the drivers which got no services in this period
+    drivers_with_no_services = [driver[:INDEXDriverStatus + 1] for driver in waiting4Services if driver[INDEXDriverName] not in drivers_with_services]
+
+    for driver in drivers_with_no_services:
+        driver = noService(driver)
+        new_services.append(driver)
+
+    return new_services
+
+# FALTA ESPECIFICAÇÕES
 def afterCharge(servicesList_ac):
 
     servicesList_ac[INDEXClientName] = NOCLIENT
@@ -20,6 +47,7 @@ def afterCharge(servicesList_ac):
     servicesList_ac[INDEXDriverStatus] = STATUSStandBy
 
     return servicesList_ac
+
 
 # PARA A PATRÍCIA FAZER
 def noService(service):
@@ -175,11 +203,6 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
 
     for reservation in reservations_p:
 
-        #print reservation
-        #for l in waiting4Services:
-        #    print l
-        #print '\n'
-
         # checks if reservation would pass km limit of vehicle or time limit of driver and chooses another driver if that's the case
         i = 0
         while i < len(waiting4Services) and \
@@ -204,20 +227,11 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
             elif new_service[INDEXDriverStatus] == STATUSStandBy:
                 waiting4Services.append(new_service)
 
-            #for l in new_services:
-             #   print l
-            #print '\n\n'
-
             # sorts waiting4Services so that drivers available earlier are assigned services first
             waiting4Services = sortWaitingServices(waiting4Services)
 
     # adds to new_services the drivers that had no service in this period
-    drivers_with_services = [service[INDEXDriverName] for service in new_services]
-    drivers_with_no_services = [driver[:INDEXDriverStatus + 1] for driver in waiting4Services if driver[INDEXDriverName] not in drivers_with_services]
-
-    for driver in drivers_with_no_services:
-        driver = noService(driver)
-        new_services.append(driver)
+    new_services = addNoServiceDriver(new_services, waiting4Services)
 
     return sortServices(new_services)
 
