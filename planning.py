@@ -12,7 +12,7 @@ from operator import itemgetter
 
 
 def addNoServiceDriver(new_services, waiting4Services):
-    """Adds the drivers that had no service in the current period to the list
+    """Adds the drivers/vehicles that had no service in the current period to the list
     of new services.
 
     Requires:
@@ -22,7 +22,7 @@ def addNoServiceDriver(new_services, waiting4Services):
     consultStatus.waiting4ServicesList
     Ensures:
     a list of lists similar to new_services but with list(s), corresponding
-    to drivers which had no service in the current, appended to it
+    to drivers/vehicles which had no service in the current, appended to it
     """
     # list of names of drivers with services
     drivers_with_services = [service[INDEXDriverName] for service in new_services]
@@ -35,6 +35,30 @@ def addNoServiceDriver(new_services, waiting4Services):
         new_services.append(driver)
 
     return new_services
+
+
+def nextDriver(reservation, waiting4Services):
+    """Returns the index of the driver/vehicle to work on the reservation
+
+    Requires:
+    reservation is a sublist of a list with the structure as in the output of
+    consultStatus.readReservationsFile; waiting4ServicesList_prevp is a list
+    with the structure as in the output of consultStatus.waiting4Services
+    Ensures:
+    An int corresponding to the index of waiting4Services of the driver/vehicle
+    to work on the reservation. If the int returned is equal to the length
+    of waiting4Services then neither of the drivers got the reservation
+    """
+    i = 0
+    # checks if reservation would pass km limit of vehicle or time limit of driver and chooses another driver if that's the case
+    # while cycle stops also when all the drivers were checked
+    while i < len(waiting4Services) and \
+            (int(reservation[INDEXCircuitKmsInReservation]) >= kmsLeftVehicle(waiting4Services[i]) or
+             durationReservation(reservation) >= diff(TIMELimit, waiting4Services[i][INDEXAccumulatedTime])):
+        i += 1
+
+    return i
+
 
 # FALTA ESPECIFICAÇÕES
 def afterCharge(servicesList_ac):
@@ -204,16 +228,13 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
     for reservation in reservations_p:
 
         # checks if reservation would pass km limit of vehicle or time limit of driver and chooses another driver if that's the case
-        i = 0
-        while i < len(waiting4Services) and \
-                (int(reservation[INDEXCircuitKmsInReservation]) >= kmsLeftVehicle(waiting4Services[i])
-                or durationReservation(reservation) >= diff(TIMELimit, waiting4Services[i][INDEXAccumulatedTime])):
-            i += 1
+        i = nextDriver(reservation, waiting4Services)
 
-        # if there is no driver available to a reservation, try get some to work on next reservation
+        # if there is no driver available to a reservation, try get some to work on the next reservation
         if i == len(waiting4Services):
             next
         else:
+
             old_service = waiting4Services.pop(i)
             new_service = updateOneService(reservation, old_service)
             new_services.append(new_service[:INDEXDriverStatus + 1])
