@@ -164,23 +164,53 @@ def updateServices(reservations_p, waiting4ServicesList_prevp):
     return sortServices(new_services)
 
 
-def afterCharge(service):
-    service[INDEXClientName] = NOCLIENT
-    service[INDEXCircuitId] = NOCIRCUIT
-    service[INDEXCircuitKms] = '0'
-    service[INDEXArrivalHour] = add(service[INDEXArrivalHour], '01:00')
-    service[INDEXDepartureHour] = service[INDEXArrivalHour]
-    service[INDEXDriverStatus] = STATUSStandBy
+def afterCharge(servicesList_ac):
 
-    return service
+    servicesList_ac[INDEXClientName] = NOCLIENT
+    servicesList_ac[INDEXArrivalHour] = add(servicesList_ac[INDEXArrivalHour], "01:00")
+    servicesList_ac[INDEXDepartureHour] = servicesList_ac[INDEXArrivalHour]
+    servicesList_ac[INDEXCircuitId] = NOCIRCUIT
+    servicesList_ac[INDEXCircuitKms] = "0"
+    servicesList_ac[INDEXDriverStatus] = STATUSStandBy
+
+    return servicesList_ac
 
 
-def sortWaitingServices(services):
-    return sorted(services, key=itemgetter(INDEXArrivalHour, INDEXAccumulatedTime, INDEXDriverName))
+def sortWaitingServices(waiting4Services):
+
+    sorted_Waiting4Services= sorted(waiting4Services, \
+                                        key=itemgetter(INDEXArrivalHour, \
+                                                    INDEXAccumulatedTime, \
+                                                    INDEXDriverName))
+
+    return sorted_Waiting4Services
 
 
 def sortServices(services):
-    return sorted(services, key=itemgetter(INDEXArrivalHour, INDEXDriverName))
+
+    sorted_Services= sorted(services, \
+                                     key=itemgetter(INDEXArrivalHour, \
+                                                    INDEXDriverName))
+    return sorted_Services
+
+
+#def afterCharge(service):
+#    service[INDEXClientName] = NOCLIENT
+#    service[INDEXCircuitId] = NOCIRCUIT
+#    service[INDEXCircuitKms] = '0'
+#    service[INDEXArrivalHour] = add(service[INDEXArrivalHour], '01:00')
+#    service[INDEXDepartureHour] = service[INDEXArrivalHour]
+#    service[INDEXDriverStatus] = STATUSStandBy
+#
+#    return service
+#
+#
+#def sortWaitingServices(services):
+#    return sorted(services, key=itemgetter(INDEXArrivalHour, INDEXAccumulatedTime, INDEXDriverName))
+#
+#
+#def sortServices(services):
+#    return sorted(services, key=itemgetter(INDEXArrivalHour, INDEXDriverName))
 
 # for testing updateOneService:
 
@@ -215,10 +245,12 @@ def sortServices(services):
 #waiting4Services = [['Carlos Castro', '05-BB-99', 'Xavier Smith', '09:45', '10:15', 'baixa', '10', 'standby', '01:45', '175', '145'], ['Jonas Sousa', '17-GD-87', 'Yoshiro Kimoto', '09:50', '10:30', 'castelo', '45', 'standby', '01:00', '130', '50'], ['Alberto Campos', '19-HI-34', 'Paul Sondag', '09:30', '10:30', 'castelo', '45', 'standby', '01:50', '175', '150'], ['Duarte Silva', '17-GD-86', 'Jack London', '10:00', '10:45', 'bairroalto', '25', 'standby', '02:27', '175', '5']]
 #result = [['Carlos Castro', '05-BB-99', 'Chris Cauly', '11:00', '11:30', 'baixa', '25', 'charges'], ['Alberto Campos', '19-HI-34', 'Michal Labelle', '11:35', '11:40', 'minibaixa', '15', 'charges'], ['Duarte Silva', '17-GD-86', 'Zacarias Zack', '11:35', '11:45', 'minibaixa', '15', 'standby'], ['Jonas Sousa', '17-GD-87', 'Frank Gerry', '11:15', '11:45', 'belem', '40', 'standby'], ['Duarte Silva', '17-GD-86', 'Alfonso Dominguez', '11:45', '12:05', 'castelo', '45', 'standby'], ['Jonas Sousa', '17-GD-87', 'John Smith', '12:00', '12:05', 'minibaixa', '20', 'standby'], ['Carlos Castro', '05-BB-99', '_no_client_', '12:30', '12:30', '_no_circuit_', '0', 'standby'], ['Alberto Campos', '19-HI-34', '_no_client_', '12:40', '12:40', '_no_circuit_', '0', 'standby'], ['Duarte Silva', '17-GD-86', 'Chris Melga', '12:05', '13:05', 'castelo', '45', 'standby'], ['Carlos Castro', '05-BB-99', 'Milan Kundera', '12:30', '13:20', 'sintra', '80', 'standby']]
 #print updateServices(reservations, waiting4Services)
-
+#
 #print result
 #print result == updateServices(reservations, waiting4Services)
 #print '\n'
+
+
 #
 # reservations = [['Conchita Gomez', '19:00', '19:30', 'baixa', '25'], ['Hugo Klim', '19:05', '19:35', 'baixa', '25'], ['Franz Beckenbauer', '19:15', '19:45', 'belem', '40'], ['Michelle Williams', '19:35', '19:40', 'minibaixa', '15'], ['Zoe Crimson', '19:35', '19:45', 'minibaixa', '15'], ['Albert Einstein', '19:40', '20:00', 'castelo', '45'], ['Chris Melga', '19:40', '20:40', 'castelo', '45'], ['Mike Shubert', '19:45', '20:35', 'sintra', '80'], ['John Malkovich', '20:00', '20:05', 'minibaixa', '20']]
 # waiting4Services = [['Catarina Castro', '05-BB-99', 'Susanne Smith', '17:45', '18:15', 'baixa', '10', 'standby', '01:45', '175', '145'], ['Nuno Santos', '34-TU-16', 'Maria Flick', '17:20', '18:20', 'mouraria', '30', 'standby', '03:20', '100', '30'], ['Ana Campos', '19-HI-34', 'Pierre Custeau', '17:30', '18:30', 'castelo', '45', 'standby', '01:50', '175', '150'], ['Jorge Sousa', '17-GD-87', 'Chris Simpson', '17:50', '18:30', 'castelo', '45', 'standby', '03:45', '130', '65'], ['Daniel Silva', '17-GD-86', '_no_client_', '18:45', '18:45', '_no_circuit_', '0', 'standby', '02:27', '175', '0']]
@@ -245,4 +277,4 @@ def sortServices(services):
 #
 #print afterCharge(service)
 #print result
-
+#
