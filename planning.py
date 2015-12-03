@@ -33,6 +33,7 @@ def calculateDelay(old_service, reservation):
 
     return [startHour, endHour]
 
+
 def addNoServiceDriver(new_services, waiting4Services):
     """Adds the drivers/vehicles that had no service in the current period to the list
     of new services.
@@ -137,7 +138,7 @@ def durationReservation(reservation):
 
 
 def kmsLeftVehicle(service):
-    """Calculates how many kilometes a vehicle can still do
+    """Calculates how many kilometers a vehicle can still do
 
     Requires:
     service is a sublist of a list with the structure as in the output of
