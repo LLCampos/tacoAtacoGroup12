@@ -11,6 +11,28 @@ from copy import deepcopy
 from operator import itemgetter
 
 
+def calculateDelay(old_service, reservation):
+    """Calculates start and end times of the new_service, with delay, if that's the case.
+
+    Requires:
+    reservation is a sublist of a list with the structure as in the output of
+    consultStatus.readReservationsFile; service is a sublist of a list with
+    the structure as in the output of consultStatus.waiting4ServicesList
+    Ensures:
+    A two-element list in which the first element is the starting time of the service
+    with or without delay and the second element is the end time of the service with
+    or without delay.
+    """
+    delay = '00:00'
+
+    if diff(old_service[INDEXArrivalHour], reservation[INDEXRequestedStartHour]) > '00:00':
+        delay = diff(old_service[INDEXArrivalHour], reservation[INDEXRequestedStartHour])
+
+    startHour = add(reservation[INDEXRequestedStartHour], delay)
+    endHour = add(reservation[INDEXRequestedEndHour], delay)
+
+    return [startHour, endHour]
+
 def addNoServiceDriver(new_services, waiting4Services):
     """Adds the drivers/vehicles that had no service in the current period to the list
     of new services.
@@ -82,11 +104,12 @@ def noService(service):
 
     return service
 
+
 def sortWaitingServices(waiting4Services):
 
-    sorted_Waiting4Services= sorted(waiting4Services, \
-                                        key=itemgetter(INDEXArrivalHour, \
-                                                    INDEXAccumulatedTime, \
+    sorted_Waiting4Services= sorted(waiting4Services,
+                                        key=itemgetter(INDEXArrivalHour,
+                                                    INDEXAccumulatedTime,
                                                     INDEXDriverName))
 
     return sorted_Waiting4Services
@@ -94,9 +117,9 @@ def sortWaitingServices(waiting4Services):
 
 def sortServices(services):
 
-    sorted_Services= sorted(services, \
-                                     key=itemgetter(INDEXArrivalHour, \
-                                                    INDEXDriverName))
+    sorted_Services= sorted(services,
+                            key=itemgetter(INDEXArrivalHour,
+                                           INDEXDriverName))
     return sorted_Services
 
 
@@ -126,7 +149,7 @@ def kmsLeftVehicle(service):
     return int(service[INDEXINDEXVehicAutonomy]) - int(service[INDEXAccumulatedKms])
 
 
-def updateOneService(reservation, service):
+def updateOneService(reservation, old_service):
     """Assign a driver with her vehicle to a service that was reserved.
 
     Requires:
@@ -143,29 +166,27 @@ def updateOneService(reservation, service):
     """
     # Adds information to the new service
     new_service = []
-    new_service.append(service[INDEXDriverName])
-    new_service.append(service[INDEXVehiclePlate])
+    new_service.append(old_service[INDEXDriverName])
+    new_service.append(old_service[INDEXVehiclePlate])
     new_service.append(reservation[INDEXClientNameInReservation])
 
-    # checks if it's going to be a delay, if there's no driver available at the requested time
-    delay = '00:00'
-    if diff(service[INDEXArrivalHour], reservation[INDEXRequestedStartHour]) > '00:00':
-        delay = diff(service[INDEXArrivalHour], reservation[INDEXRequestedStartHour])
+    # checks if it's going to be a delay, that is, if the driver/vehicle is not available at the requested time
+    startHour, endHour = calculateDelay(old_service, reservation)
 
-    new_service.append(add(reservation[INDEXRequestedStartHour], delay))
-    new_service.append(add(reservation[INDEXRequestedEndHour], delay))
+    new_service.append(startHour)
+    new_service.append(endHour)
 
     new_service.append(reservation[INDEXCircuitInReservation])
     new_service.append(reservation[INDEXCircuitKmsInReservation])
 
     # Calculates how much work time is left for the driver after this service
     duration = durationReservation(reservation)
-    new_accumulated_hours = add(service[INDEXAccumulatedTime], duration)
+    new_accumulated_hours = add(old_service[INDEXAccumulatedTime], duration)
     allowed_time_left = diff(TIMELimit, new_accumulated_hours)
 
     # Calculates how much kms are left fot the vehivle after this service
-    new_accumulated_kms = int(service[INDEXAccumulatedKms]) + int(new_service[INDEXCircuitKms])
-    allowed_kms_left = int(service[INDEXINDEXVehicAutonomy]) - new_accumulated_kms
+    new_accumulated_kms = int(old_service[INDEXAccumulatedKms]) + int(new_service[INDEXCircuitKms])
+    allowed_kms_left = int(old_service[INDEXINDEXVehicAutonomy]) - new_accumulated_kms
 
     # Adds the rest of the information, depending on the allowed time and kms left
     if allowed_time_left < TIMEThreshold:
@@ -173,12 +194,12 @@ def updateOneService(reservation, service):
     elif allowed_kms_left < AUTONThreshold:
         new_service.append(STATUSCharging)
         new_service.append(new_accumulated_hours)
-        new_service.append(service[INDEXINDEXVehicAutonomy])
+        new_service.append(old_service[INDEXINDEXVehicAutonomy])
         new_service.append('0')
     else:
         new_service.append(STATUSStandBy)
         new_service.append(new_accumulated_hours)
-        new_service.append(service[INDEXINDEXVehicAutonomy])
+        new_service.append(old_service[INDEXINDEXVehicAutonomy])
         new_service.append(str(new_accumulated_kms))
 
     return new_service
