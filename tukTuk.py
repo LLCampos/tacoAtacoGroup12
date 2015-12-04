@@ -55,7 +55,7 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
     the name of that file is outputXXYY.txt where XXYY represents
     the nextPeriod.
     """
-    outputFileName = 'output' + 'nextPeriod'
+    outputFileName = 'output' + nextPeriod
 
     header = createNewHeader(servicesFileName, nextPeriod)
 
