@@ -9,26 +9,8 @@ from constants import *
 from copy import deepcopy
 from operator import itemgetter
 from serviceListManipulation import resetVehic
-
+from headerRelated import removeHeader
 # code is not DRY
-
-
-# Talvez colocar num módulo à parte? Dependendo se tivermos muitas funções
-# auxiliares ou não.
-def removeHeader(file):
-    """Removes the header of any file (drivers, vehicles, reservations or services)
-
-    Requires:
-    file is of type file, containing a list of drivers, vehicles, reservations
-    or services organized as in the examples provided in the general
-    specification (omitted here for the sake of readability).
-    Ensures:
-    list where each element corresponds to each line after the header,
-    that is, each element corresponds to information about a driver, vehicle,
-    reservation or service
-    """
-    return file.readlines()[NUMBEROfLinesInHeader:]
-
 
 def readDriversFile(file_name):
     """Reads a file with a list of drivers into a collection.
