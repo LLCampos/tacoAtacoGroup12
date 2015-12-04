@@ -1,0 +1,11 @@
+Company:
+taco-a-taco
+Day: 
+09:11:2015
+Period:
+09:00 - 11:00
+Services:
+Carlos Castro, 05-BB-99, Xavier Smith, 09:45, 10:15, baixa, 10, standby
+Alberto Campos, 19-HI-34, Paul Sondag, 09:30, 10:30, castelo, 45, standby
+Jonas Sousa, 17-GD-87, Yoshiro Kimoto, 09:50, 10:30, castelo, 45, standby
+Duarte Silva, 17-GD-86, Jack London, 10:00, 10:45, bairroalto, 25, standby

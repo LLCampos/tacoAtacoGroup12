@@ -9,7 +9,7 @@ import sys
 from consultStatus import *
 from planning import updateServices
 from outputStatus import writeServicesFile
-from headerRelated import getNewHeader
+from headerRelated import createNewHeader
 
 nextPeriod = sys.argv[1]
 driversFileName = sys.argv[2]
@@ -70,7 +70,7 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
 
     writeServicesFile(newServices, outputFileName, header)
 
-
+update(nextPeriod, driversFileName, vehiclesFileName, servicesFileName, reservationsFileName)
 
 
 

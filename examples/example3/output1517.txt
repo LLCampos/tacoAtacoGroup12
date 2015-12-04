@@ -1,0 +1,16 @@
+Company:
+taco-a-taco
+Day: 
+23:11:2015
+Period:
+15:00 - 17:00
+Services:
+Rita Carvalho, 19-HI-34, Conchita Suarez, 15:00, 15:45, baixa, 25, standby
+Daniel Pereira, 17-GD-86, Zoe Ruiz, 15:35, 15:50, minibaixa, 15, terminates
+Luis Gomes, 34-TU-16, John Stuart, 16:00, 16:05, minibaixa, 20, charges
+Rita Carvalho, 19-HI-34, Albert Schumaker, 15:45, 16:45, castelo, 45, terminates
+Steven Neale, 05-BB-99, Franz Muller, 15:15, 16:45, belem, 40, standby
+Luis Gomes, 34-TU-16, _no_client_, 17:05, 17:05, _no_circuit_, 0, standby
+Nuno Sousa, 17-GD-87, _no_client_, 14:45, 17:15, _no_circuit_, 0, standby
+Steven Neale, 05-BB-99, Chris Smith, 16:45, 17:45, castelo, 45, terminates
+Catarina Correia, 67-BH-87, Michelle Pfeiffer, 16:50, 18:50, sintra, 80, standby

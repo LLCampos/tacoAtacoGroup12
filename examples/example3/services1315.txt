@@ -1,0 +1,19 @@
+Company:
+taco-a-taco
+Day: 
+23:11:2015
+Period:
+13:00 - 15:00
+Services:
+Daniel Pereira, 17-GD-86, Stephan Khal, 12:30, 13:15, alfama, 50, charges
+Steven Neale, 05-BB-99, Giorgio Rossi, 13:00, 13:30, baixa, 25, standby
+Nuno Sousa, 17-GD-87, Pierre Changeaux, 13:15, 13:45, baixa, 10, charges
+Daniel Pereira, 17-GD-86, _no_client_, 14:15, 14:15, _no_circuit_, 0, standby
+Pedro Costa, 39-TX-28, Frank Oz, 14:15, 14:35, minibaixa, 10, terminates
+Nuno Sousa, 17-GD-87, _no_client_, 14:15, 14:45, _no_circuit_, 0, standby
+Rita Carvalho, 19-HI-34, Cavaco Silva, 12:30, 14:50, cascais, 70, standby
+Luis Gomes, 34-TU-16, Stelios Callas, 12:50, 14:50, cristorei, 40, standby
+Ana Tavares, 45-CH-70, Jack Wilson, 13:10, 14:55, cascais, 80, terminates
+Steven Neale, 05-BB-99, Helena Rodriguez, 13:35, 15:15, castelo, 45, standby
+Catarina Correia, 67-BH-87, John Wayne, 14:50, 16:50, sintra, 80, standby
+Nuno Sousa, 17-GD-87, Charles Simpson, 14:45, 17:15, sintra, 80, standby

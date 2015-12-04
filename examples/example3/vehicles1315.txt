@@ -1,0 +1,15 @@
+Company:
+taco-a-taco
+Day: 
+23:11:2015
+Period:
+13:00 - 15:00
+Vehicles:
+05-BB-99, lambretta GX, 175, 70
+17-GD-86, lambretta GX, 175, 0
+17-GD-87, piaggio 100, 130, 90
+19-HI-34, lambretta GX, 175, 75
+34-TU-16, lambretta TY, 100, 70
+39-TX-28, lambretta TY, 100, 15
+45-CH-70, piaggio 80, 120, 80
+67-BH-87, lambretta GX, 175, 80

@@ -1,0 +1,16 @@
+Company:
+taco-a-taco
+Day: 
+16:11:2015
+Period:
+19:00 - 21:00
+Reservations:
+Conchita Gomez, 19:00, 19:30, baixa, 25
+Hugo Klim, 19:05, 19:35, baixa, 25
+Franz Beckenbauer, 19:15, 19:45, belem, 40
+Michelle Williams, 19:35, 19:40, minibaixa, 15
+Zoe Crimson, 19:35, 19:45, minibaixa, 15
+Albert Einstein, 19:40, 20:00, castelo, 45
+Chris Melga, 19:40, 20:40, castelo, 45
+Mike Shubert, 19:45, 20:35, sintra, 80
+John Malkovich, 20:00, 20:05, minibaixa, 20

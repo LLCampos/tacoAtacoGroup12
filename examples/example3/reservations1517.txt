@@ -1,0 +1,15 @@
+Company:
+taco-a-taco
+Day: 
+23:11:2015
+Period:
+15:00 - 17:00
+Reservations:
+Conchita Suarez, 15:00, 15:45, baixa, 25
+Franz Muller, 15:15, 16:45, belem, 40
+Michelle Pfeiffer, 15:35, 17:35, sintra, 80
+Zoe Ruiz, 15:35, 15:50, minibaixa, 15
+Albert Schumaker, 15:40, 16:40, castelo, 45
+Chris Smith, 15:40, 16:40, castelo, 45
+Mike Melga, 15:45, 17:45, sintra, 80
+John Stuart, 16:00, 16:05, minibaixa, 20
