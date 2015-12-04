@@ -57,7 +57,7 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
     """
     outputFileName = 'output' + 'nextPeriod'
 
-    header = getNewHeader(servicesFileName, nextPeriod)
+    header = createNewHeader(servicesFileName, nextPeriod)
 
     drivers = readDriversFile(driversFileName)
     vehicles = readVehiclesFile(vehiclesFileName)
