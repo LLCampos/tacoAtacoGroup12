@@ -9,7 +9,7 @@ from constants import *
 from timeTT import *
 from calculations import *
 from copy import deepcopy
-from operator import itemgetter
+from serviceListManipulation import *
 
 def addNoServiceDriver(new_services, waiting4Services):
     """Adds the drivers/vehicles that had no service in the current period to the list
@@ -58,49 +58,6 @@ def nextDriver(reservation, waiting4Services):
         i += 1
 
     return i
-
-
-# FALTA ESPECIFICAÇÕES
-def afterCharge(servicesList_ac):
-
-    servicesList_ac[INDEXClientName] = NOCLIENT
-    servicesList_ac[INDEXArrivalHour] = add(servicesList_ac[INDEXArrivalHour], "01:00")
-    servicesList_ac[INDEXDepartureHour] = servicesList_ac[INDEXArrivalHour]
-    servicesList_ac[INDEXCircuitId] = NOCIRCUIT
-    servicesList_ac[INDEXCircuitKms] = "0"
-    servicesList_ac[INDEXDriverStatus] = STATUSStandBy
-
-    return servicesList_ac
-
-
-# PARA A PATRÍCIA FAZER
-def noService(service):
-    service[INDEXClientName] = NOCLIENT
-    service[INDEXCircuitId] = NOCIRCUIT
-    service[INDEXCircuitKms] = "0"
-    service[INDEXDriverStatus] = STATUSStandBy
-
-    return service
-
-
-def sortWaitingServices(waiting4Services):
-
-    sorted_Waiting4Services= sorted(waiting4Services,
-                                        key=itemgetter(INDEXArrivalHour,
-                                                    INDEXAccumulatedTime,
-                                                    INDEXDriverName))
-
-    return sorted_Waiting4Services
-
-
-def sortServices(services):
-
-    sorted_Services= sorted(services,
-                            key=itemgetter(INDEXArrivalHour,
-                                           INDEXDriverName))
-    return sorted_Services
-
-
 
 def updateOneService(reservation, old_service):
     """Assign a driver with her vehicle to a service that was reserved.

@@ -8,6 +8,7 @@
 from constants import *
 from copy import deepcopy
 from operator import itemgetter
+from serviceListManipulation import resetVehic
 
 # code is not DRY
 
@@ -27,19 +28,6 @@ def removeHeader(file):
     reservation or service
     """
     return file.readlines()[NUMBEROfLinesInHeader:]
-
-
-def resetVehic(service):
-    """Changes the type of activity of a driver/vehicle to 'standby'
-
-    Requires:
-    service is a sublist of the output list of the function readServicesFile
-    Ensures:
-    list with every element identical to list service, but in which the last
-    element is substituted for 'standby'
-    """
-    service[INDEXDriverStatus] = STATUSStandBy
-    return service
 
 
 def readDriversFile(file_name):
