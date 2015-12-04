@@ -38,7 +38,7 @@ def resetVehic(service):
     list with every element identical to list service, but in which the last
     element is substituted for 'standby'
     """
-    service[-1] = STATUSStandBy
+    service[INDEXDriverStatus] = STATUSStandBy
     return service
 
 
