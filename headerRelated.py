@@ -6,6 +6,7 @@
 # 43134 Luís Filipe Leal Campos
 
 from constants import *
+from timeTT import changeFormatTime
 
 def removeHeader(file):
     """Removes the header of any file (drivers, vehicles, reservations or services)
@@ -20,3 +21,18 @@ def removeHeader(file):
     reservation or service
     """
     return file.readlines()[NUMBEROfLinesInHeader:]
+
+# PATRICIA
+def createNewHeader(serviceFileName, new_period):
+
+    new_period = changeFormatTime(new_period)
+
+    file = open(serviceFileName, 'r')
+
+    header = file.readlines()[:NUMBEROfLinesInHeader]
+    header[5] = new_period
+
+    file.close()
+
+    return header
+
