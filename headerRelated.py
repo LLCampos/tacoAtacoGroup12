@@ -32,6 +32,9 @@ def createNewHeader(serviceFileName, new_period):
     header = file.readlines()[:NUMBEROfLinesInHeader]
     header[5] = new_period
 
+    header = ','.join(header)
+    header = header.replace('\n','')
+
     file.close()
 
     return header
