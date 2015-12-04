@@ -9,6 +9,7 @@ import sys
 from consultStatus import *
 from planning import updateServices
 from outputStatus import writeServicesFile
+from headerRelated import getNewHeader
 
 nextPeriod = sys.argv[1]
 driversFileName = sys.argv[2]
@@ -16,6 +17,8 @@ vehiclesFileName = sys.argv[3]
 servicesFileName = sys.argv[4]
 reservationsFileName = sys.argv[5]
 
+
+# PARA A PATRICIA FAZER
 def update(nextPeriod, driversFileName, vehiclesFileName, \
            servicesFileName, reservationsFileName):
     """Obtains the planning for a period of activity.
@@ -53,6 +56,8 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
     the nextPeriod.
     """
     outputFileName = 'output' + 'nextPeriod'
+
+    header = getNewHeader(servicesFileName, nextPeriod)
 
     drivers = readDriversFile(driversFileName)
     vehicles = readVehiclesFile(vehiclesFileName)
