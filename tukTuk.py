@@ -5,6 +5,16 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
+import sys
+from consultStatus import *
+from planning import updateServices
+from outputStatus import writeServicesFile
+
+nextPeriod = sys.argv[1]
+driversFileName = sys.argv[2]
+vehiclesFileName = sys.argv[3]
+servicesFileName = sys.argv[4]
+reservationsFileName = sys.argv[5]
 
 def update(nextPeriod, driversFileName, vehiclesFileName, \
            servicesFileName, reservationsFileName):
@@ -42,6 +52,27 @@ def update(nextPeriod, driversFileName, vehiclesFileName, \
     the name of that file is outputXXYY.txt where XXYY represents
     the nextPeriod.
     """
+    outputFileName = 'output' + 'nextPeriod'
+
+    drivers = readDriversFile(driversFileName)
+    vehicles = readVehiclesFile(vehiclesFileName)
+    services = readServicesFile(servicesFileName)
+    reservations = readReservationsFile(reservationsFileName)
+
+    waiting4Services = waiting4ServicesList(drivers, vehicles, services)
+
+    newServices = updateServices(reservations, waiting4Services)
+
+    writeServicesFile(newServices, outputFileName, header)
+
+
+
+
+
+
+
+
+
 
 
 
