@@ -90,3 +90,13 @@ def diff(time1, time2):
     return intToTime(t1H, t1M)
 
 
+def changeFormatTime(period):
+    #recebo isto 1921 e quero 19:00 - 21:00 esta tudo em str
+    H1 = period[0:2]
+    H2 = period[2:4]
+
+    return H1 + ":00 - " + H2 + ":00"
+
+
+
+

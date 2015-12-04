@@ -5,14 +5,7 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
-
-def changeFormatTime(period):
-    #recebo isto 1921 e quero 19:00 - 21:00 esta tudo em str
-    H1 = period[0:2]
-    H2 = period[2:4]
-
-    return H1 + ":00 - " + H2 + ":00"
-
+from timeTT import changeFormatTime
 
 def makeHeader(company, date, p, type):
     """Constructs a header for a file
