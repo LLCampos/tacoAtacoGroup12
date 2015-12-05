@@ -8,6 +8,7 @@
 from constants import *
 from timeTT import changeFormatTime
 
+
 def removeHeader(file):
     """Removes the header of any file (drivers, vehicles, reservations or services)
 
@@ -22,20 +23,28 @@ def removeHeader(file):
     """
     return file.readlines()[NUMBEROfLinesInHeader:]
 
-# PATRICIA
-def createNewHeader(serviceFileName, new_period):
 
-    new_period = changeFormatTime(new_period)
+def getHeader(fileName):
 
-    file = open(serviceFileName, 'r')
-
+    file = open(fileName, 'r')
     header = file.readlines()[:NUMBEROfLinesInHeader]
-    header[5] = new_period
-
-    header = ','.join(header)
-    header = header.replace('\n','')
-
     file.close()
 
     return header
+
+
+# PATRICIA
+def createNewHeader(fileName, new_period):
+
+    new_period = changeFormatTime(new_period)
+
+    header = getHeader(fileName)
+
+    header[5] = new_period
+
+    header = ','.join(header)
+    header = header.replace('\n', '')
+    return header
+
+
 
