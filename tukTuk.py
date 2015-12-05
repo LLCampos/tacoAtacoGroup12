@@ -10,6 +10,7 @@ from consultStatus import *
 from planning import updateServices
 from outputStatus import writeServicesFile
 from headerRelated import createNewHeader, getHeader
+from timeTT import changeFormatTime
 
 nextPeriod = sys.argv[1]
 driversFileName = sys.argv[2]
@@ -26,13 +27,16 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
     headerServices = getHeader(servicesFileName)
     headerReservations = getHeader(reservationsFileName)
 
+    # changes the format of the period to the one in the header of files
+    nextPeriodOther = changeFormatTime(nextPeriod)
+
     # the files whose names are driversFileName, vehiclesFileName, servicesFileName and reservationsFileName
     # concern the same company and the same day;
     if not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] == headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
         return False
 
     # the file whose name is reservationsFileName concerns the period indicated by nextPeriod
-    elif False:
+    elif headerReservations[INDEXPeriod].strip() != nextPeriodOther:
         return False
 
     # the files whose names are driversFileName, vehiclesFileName, servicesFileName concern the period
