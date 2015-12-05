@@ -24,6 +24,7 @@ def removeHeader(file):
     return file.readlines()[NUMBEROfLinesInHeader:]
 
 
+# PATRICIA
 def getHeader(fileName):
 
     file = open(fileName, 'r')
@@ -40,7 +41,7 @@ def createNewHeader(fileName, new_period):
 
     header = getHeader(fileName)
 
-    header[5] = new_period
+    header[INDEXPeriod] = new_period
 
     header = ','.join(header)
     header = header.replace('\n', '')
