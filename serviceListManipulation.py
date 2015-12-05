@@ -5,7 +5,7 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
-
+# module with functions that manipulate service (or similar waiting4Services) lists
 
 from constants import *
 from timeTT import *
@@ -33,7 +33,7 @@ def noService(service):
 
     return service
 
-
+# ESPECIFICAÇÕES
 def sortWaitingServices(waiting4Services):
 
     sorted_Waiting4Services= sorted(waiting4Services,
@@ -43,7 +43,7 @@ def sortWaitingServices(waiting4Services):
 
     return sorted_Waiting4Services
 
-
+# ESPECIFICAÇÕES
 def sortServices(services):
 
     sorted_Services= sorted(services,

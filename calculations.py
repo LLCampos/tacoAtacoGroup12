@@ -5,6 +5,9 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
+# module with functions for specific calculations (in contrast with module timeTT, which contains functions
+# for more general calculations)
+
 from constants import *
 from timeTT import *
 

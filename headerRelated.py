@@ -8,6 +8,7 @@
 from constants import *
 from timeTT import changeFormatTime
 
+# module with functions related to the header of files
 
 def removeHeader(file):
     """Removes the header of any file (drivers, vehicles, reservations or services)
