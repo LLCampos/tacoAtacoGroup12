@@ -11,6 +11,7 @@
 
 
 
+
 # Limit of driver's daily allowed time to drive
 TIMELimit = "05:00"
 
@@ -31,13 +32,19 @@ RECHDURATION = "01:00"
 # No circuit assigned
 NOCIRCUIT = "_no_circuit_"
 
-
-
 # In a file:
 # Number of line in a header
 NUMBEROfLinesInHeader = 7
 
+# In a the header list:
+# Index of elements with name of company
+INDEXCompany = 1
 
+# Index of elements with the date
+INDEXDate = 3
+
+# Index of elements with the period
+INDEXPeriod = 5
 
 # In a service list:
 # Index of element with driver's name
