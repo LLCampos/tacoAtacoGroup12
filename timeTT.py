@@ -98,5 +98,22 @@ def changeFormatTime(period):
     return H1 + ":00 - " + H2 + ":00"
 
 
+def getPreviousPeriod(period):
+    #1921 -> 1719
+    H1 = period[0:2]
+
+    newH1 = str(int(H1) - 2)
+
+    if len(newH1) == 1:
+        newH1 = '0' + newH1
+
+    newH2 = H1
+
+    return newH1 + newH2
+
+
+
+
+
 
 
