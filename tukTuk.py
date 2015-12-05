@@ -10,7 +10,7 @@ from consultStatus import *
 from planning import updateServices
 from outputStatus import writeServicesFile
 from headerRelated import createNewHeader, getHeader
-from timeTT import changeFormatTime
+from timeTT import changeFormatTime, getPreviousPeriod
 
 nextPeriod = sys.argv[1]
 driversFileName = sys.argv[2]
@@ -27,12 +27,17 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
     headerServices = getHeader(servicesFileName)
     headerReservations = getHeader(reservationsFileName)
 
+    previousPeriod = getPreviousPeriod(nextPeriod)
+
     # changes the format of the period to the one in the header of files
     nextPeriodOther = changeFormatTime(nextPeriod)
+    previousPeriodOther = changeFormatTime(previousPeriod)
 
     # the files whose names are driversFileName, vehiclesFileName, servicesFileName and reservationsFileName
     # concern the same company and the same day;
-    if not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] == headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
+    if not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] ==
+            headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
+
         return False
 
     # the file whose name is reservationsFileName concerns the period indicated by nextPeriod
@@ -41,7 +46,8 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
 
     # the files whose names are driversFileName, vehiclesFileName, servicesFileName concern the period
     # immediately preceding the period indicated by nextPeriod;
-    elif False:
+    elif not (headerDrivers[INDEXPeriod].strip() == headerVehicles[INDEXPeriod].strip() ==
+              headerServices[INDEXPeriod].strip() == previousPeriodOther):
         return False
 
     # the file name reservationsFileName ends (before the .txt extension) with
