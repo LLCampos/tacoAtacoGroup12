@@ -35,9 +35,13 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
 
     # the files whose names are driversFileName, vehiclesFileName, servicesFileName and reservationsFileName
     # concern the same company and the same day;
-    if not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] ==
-            headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
 
+    # nextPeriod is a str from the set 0911, 1113, ..., 1921
+    if nextPeriod not in ['0911', '1113', '1315', '1517', '1719', '1921']:
+        return False
+
+    elif not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] ==
+              headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
         return False
 
     # the file whose name is reservationsFileName concerns the period indicated by nextPeriod
@@ -59,8 +63,9 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
     # end (before their .txt extension) with the string representing
     # the period immediately preceding the one indicated by nextPeriod,
     # from the set 0709, 0911, ..., 1719;
-    elif False:
+    elif not (driversFileName[-8:-4] == vehiclesFileName[-8:-4] == servicesFileName[-8:-4] == previousPeriod):
         return False
+
     else:
         return True
 
