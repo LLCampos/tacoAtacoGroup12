@@ -1,15 +1,11 @@
 #-*- coding: utf-8 -*-
 
-# 2015-2016 # 2015-2016 Fundamentos de Programação (FP)
+# 2015-2016 Fundamentos de Programação (FP)
 # Grupo 12
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
-
-
 # This module records the constants used in the application
-
-
 
 
 # Limit of driver's daily allowed time to drive
@@ -91,7 +87,6 @@ STATUSStandBy = "standby"
 
 # Status of driver with no service assigned yet
 STATUSNoServiceYet = "00:00"
-
 
 
 # In a reservation list:

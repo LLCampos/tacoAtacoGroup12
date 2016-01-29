@@ -5,27 +5,6 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
-from timeTT import changeFormatTime
-
-def makeHeader(company, date, p, type):
-    """Constructs a header for a file
-
-    Requires:
-    company is a string with the name of the company
-    date is a string with a date in the format "DD:MM:YYYY"
-    p is a string with the format "HHHH" indicating a
-    2 hour period
-    type is one of the following strings: "Reservations",
-    "Services", "Drivers", "Vehicles"
-    Ensures:
-    a string with a header concerning period p, as in
-    the examples given in the general specification (ommited here for the
-    sake of readability)
-    """
-    header = "Company:," + company + ",Day:," + date + ",Period:," + changeFormatTime(p) + "," + type + ":"
-
-    return header
-
 
 def writeServicesFile(services_p, file_name_p, header_p):
     """Writes a collection of services into a file.
@@ -58,12 +37,3 @@ def writeServicesFile(services_p, file_name_p, header_p):
         f.write(line + '\n')
 
     f.close()
-
-
-
-
-
-
-
-
-

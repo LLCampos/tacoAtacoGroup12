@@ -5,25 +5,22 @@
 # 43071 Ana Patrícia Dos Santos Abrantes
 # 43134 Luís Filipe Leal Campos
 
-# Especificações não dizem supostamente apenas o que a função faz e não como o faz?
-# Falar de driver?
-
 
 def hourToInt(time):
-    """Gives the hour of any time.
-    Requires: time is of type string.
-    Ensures: The transformation of the string time into integer and gives
-    the zeroth position.
+    """Gives the number of hours of time.
+
+    Requires: time is of type string, with format "HH:MM".
+    Ensures: returns an integer corresponding to the number of hours of time.
     """
     t = time.split(":")
     return int(t[0])
 
 
 def minutesToInt(time):
-    """Gives the minutes of any time.
-    Requires: time is of type string.
-    Ensures: The transformation of the string time into integer and gives
-    the first position.
+    """Gives the number of minutes of time.
+
+    Requires: time is of type string, with format "HH:MM".
+    Ensures: returns an integer corresponding to the number of minutes of time.
     """
     t = time.split(":")
     return int(t[1])
@@ -47,9 +44,10 @@ def intToTime(hour, minutes):
 
 
 def add(time1, time2):
-    """ Adds a quantity of time to the working time elapsed.
+    """Calculates the sum between two times.
+
     Requires: time1 and time2 as strings with "hh:mm" format.
-    Ensures: A string with the accumulative time elapsed.
+    Ensures: A string with the sum of time1 and time2.
     """
     t1Hour = hourToInt(time1)
     t1Minutes = minutesToInt(time1)
@@ -66,7 +64,8 @@ def add(time1, time2):
 
 
 def diff(time1, time2):
-    """Removes a quantity of time to the working time time elapsed.
+    """Calculates the difference between two times.
+
     Requires: time1 and time2 as strings with "hh:mm" format.
     Ensures: A string with the difference between time1 and time2.
     """
@@ -91,7 +90,14 @@ def diff(time1, time2):
 
 
 def changeFormatTime(period):
-    #recebo isto 1921 e quero 19:00 - 21:00 esta tudo em str
+    """Change format of a period from 'HHHH' into 'HH:MM - HH:MM'.
+
+    Requires:
+    period is a string with the format 'HHHH'.
+    Ensures:
+    string with format 'HH:MM - HH:MM'.
+    """
+
     H1 = period[0:2]
     H2 = period[2:4]
 
@@ -99,7 +105,16 @@ def changeFormatTime(period):
 
 
 def getPreviousPeriod(period):
-    #1921 -> 1719
+    """Gets the time of the previous 2 hour period.
+
+    Requires:
+    period is a string with the format 'HHHH'
+    corresponding to a 2 hour period.
+    Ensures:
+    A string in the same format as the input, corresponding
+    to the previous 2 hour period.
+    """
+
     H1 = period[0:2]
 
     newH1 = str(int(H1) - 2)
@@ -110,10 +125,3 @@ def getPreviousPeriod(period):
     newH2 = H1
 
     return newH1 + newH2
-
-
-
-
-
-
-

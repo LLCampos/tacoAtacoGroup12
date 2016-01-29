@@ -18,7 +18,7 @@ def calculateDelay(old_service, reservation):
     Requires:
     reservation is a sublist of a list with the structure as in the output of
     consultStatus.readReservationsFile; service is a sublist of a list with
-    the structure as in the output of consultStatus.waiting4ServicesList
+    the structure as in the output of consultStatus.waiting4ServicesList.
     Ensures:
     A two-element list in which the first element is the starting time of the service
     with or without delay and the second element is the end time of the service with
@@ -36,26 +36,27 @@ def calculateDelay(old_service, reservation):
 
 
 def durationReservation(reservation):
-    """Calculates duration of a service
+    """Calculates duration of a service.
 
     Requires:
     reservation is a sublist of a list with the structure as in the output of
-    consultStatus.readReservationsFile;
+    consultStatus.readReservationsFile.
     Ensures:
     string in the format 'HH:MM' corresponding to the duration of the service
+    corresponding to the reservation.
     """
 
     return diff(reservation[INDEXRequestedEndHour], reservation[INDEXRequestedStartHour])
 
 
 def kmsLeftVehicle(service):
-    """Calculates how many kilometers a vehicle can still do
+    """Calculates how many kilometers a vehicle can still do.
 
     Requires:
     service is a sublist of a list with the structure as in the output of
-    consultStatus.waiting4ServicesList
+    consultStatus.waiting4ServicesList.
     Ensures:
-    an int corresponding to the number of km the vehicle can still make
+    An int corresponding to the number of km a vehicle can still make.
     """
 
     return int(service[INDEXINDEXVehicAutonomy]) - int(service[INDEXAccumulatedKms])

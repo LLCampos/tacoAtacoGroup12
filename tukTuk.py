@@ -12,6 +12,7 @@ from outputStatus import writeServicesFile
 from headerRelated import createNewHeader, getHeader
 from timeTT import changeFormatTime, getPreviousPeriod
 
+
 nextPeriod = sys.argv[1]
 driversFileName = sys.argv[2]
 vehiclesFileName = sys.argv[3]
@@ -21,6 +22,14 @@ reservationsFileName = sys.argv[5]
 
 def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
                        servicesFileName, reservationsFileName):
+    """Checks the preconditions.
+
+    Requires:
+    The same as update (ommitted here to avoid redudancy)
+    Ensures:
+    returns bool value False if some of the conditions are not met
+    and True otherwise
+    """
 
     headerDrivers = getHeader(driversFileName)
     headerVehicles = getHeader(vehiclesFileName)
@@ -29,37 +38,36 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
 
     previousPeriod = getPreviousPeriod(nextPeriod)
 
-    # changes the format of the period to the one in the header of files
+    # Changes the format of the period to the one in the header of files
     nextPeriodOther = changeFormatTime(nextPeriod)
     previousPeriodOther = changeFormatTime(previousPeriod)
 
-    # the files whose names are driversFileName, vehiclesFileName, servicesFileName and reservationsFileName
-    # concern the same company and the same day;
-
-    # nextPeriod is a str from the set 0911, 1113, ..., 1921
+    # NextPeriod is a str from the set 0911, 1113, ..., 1921
     if nextPeriod not in ['0911', '1113', '1315', '1517', '1719', '1921']:
         return False
 
+    # The files whose names are driversFileName, vehiclesFileName, servicesFileName and reservationsFileName
+    # concern the same company and the same day;
     elif not (headerDrivers[INDEXCompany:INDEXDate + 1] == headerVehicles[INDEXCompany:INDEXDate + 1] ==
               headerServices[INDEXCompany:INDEXDate + 1] == headerReservations[INDEXCompany:INDEXDate + 1]):
         return False
 
-    # the file whose name is reservationsFileName concerns the period indicated by nextPeriod
+    # The file whose name is reservationsFileName concerns the period indicated by nextPeriod
     elif headerReservations[INDEXPeriod].strip() != nextPeriodOther:
         return False
 
-    # the files whose names are driversFileName, vehiclesFileName, servicesFileName concern the period
+    # The files whose names are driversFileName, vehiclesFileName, servicesFileName concern the period
     # immediately preceding the period indicated by nextPeriod;
     elif not (headerDrivers[INDEXPeriod].strip() == headerVehicles[INDEXPeriod].strip() ==
               headerServices[INDEXPeriod].strip() == previousPeriodOther):
         return False
 
-    # the file name reservationsFileName ends (before the .txt extension) with
+    # The file name reservationsFileName ends (before the .txt extension) with
     # the string nextPeriod;
     elif reservationsFileName[-8:-4] != nextPeriod:
         return False
 
-    # the file names driversFileName, vehiclesFileName and servicesFileName
+    # The file names driversFileName, vehiclesFileName and servicesFileName
     # end (before their .txt extension) with the string representing
     # the period immediately preceding the one indicated by nextPeriod,
     # from the set 0709, 0911, ..., 1719;
@@ -70,7 +78,6 @@ def checkPreConditions(nextPeriod, driversFileName, vehiclesFileName,
         return True
 
 
-# PARA A PATRICIA FAZER
 def update(nextPeriod, driversFileName, vehiclesFileName,
            servicesFileName, reservationsFileName):
     """Obtains the planning for a period of activity.
@@ -110,7 +117,7 @@ def update(nextPeriod, driversFileName, vehiclesFileName,
 
     if checkPreConditions(nextPeriod, driversFileName, vehiclesFileName, servicesFileName, reservationsFileName):
 
-        outputFileName = 'output' + nextPeriod
+        file_name = "output" + nextPeriod
 
         header = createNewHeader(servicesFileName, nextPeriod)
 
@@ -119,25 +126,14 @@ def update(nextPeriod, driversFileName, vehiclesFileName,
         services = readServicesFile(servicesFileName)
         reservations = readReservationsFile(reservationsFileName)
 
-        waiting4Services = waiting4ServicesList(drivers, vehicles, services)
+        waiting4services = waiting4ServicesList(drivers, vehicles, services)
 
-        newServices = updateServices(reservations, waiting4Services)
+        new_services = updateServices(reservations, waiting4services)
 
-        writeServicesFile(newServices, outputFileName, header)
+        writeServicesFile(new_services, file_name, header)
 
     else:
         raise IOError('File names and/or headers not consistent.')
 
+
 update(nextPeriod, driversFileName, vehiclesFileName, servicesFileName, reservationsFileName)
-
-
-
-
-
-
-
-
-
-
-
-

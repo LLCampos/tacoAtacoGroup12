@@ -10,7 +10,7 @@ from copy import deepcopy
 from operator import itemgetter
 from serviceListManipulation import resetVehic
 from headerRelated import removeHeader
-# code is not DRY
+
 
 def readDriversFile(file_name):
     """Reads a file with a list of drivers into a collection.
@@ -30,7 +30,7 @@ def readDriversFile(file_name):
     driversDict = {}
     for line in inFile:
         driverData = line.rstrip().split(', ')
-        driverName = driverData.pop(INDEXDriverName) #não sei se é suposto usar-se esta constante aqui, mas quando perceber melhor o programa vejo melhor
+        driverName = driverData.pop(INDEXDriverName)
         driversDict[driverName] = driverData
 
     return driversDict
@@ -55,14 +55,12 @@ def readVehiclesFile(file_name):
     vehiclesDict = {}
     for line in inFile:
         vehicleData = line.rstrip().split(", ")
-        vehiclePlate = vehicleData.pop(INDEXVehiclePlateInDict) #acho estranho usar-se aqui o INDEXVehiclePlateInDict
+        vehiclePlate = vehicleData.pop(INDEXVehiclePlateInDict)
         vehiclesDict[vehiclePlate] = vehicleData
 
     return vehiclesDict
 
 
-# não é implementado a capacidade de ordenar as listas de forma correcta
-# pois já vêm ordenadas nos ficheiros?
 def readServicesFile(file_name):
     """Reads a file with a list of services into a collection.
 
